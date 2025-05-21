@@ -6,12 +6,15 @@ import App from './App.vue'
 import './assets'
 
 import { router } from './router'
+import { initStores } from './store'
 
-function bootstrap() {
+async function bootstrap(namespace) {
   const app = createApp(App)
+  // 配置 pinia-tore
+  await initStores(app, { namespace })
   // 配置路由及路由守卫
   app.use(router)
   app.mount('#app')
 }
 
-bootstrap()
+bootstrap('labs')
