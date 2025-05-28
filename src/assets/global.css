@@ -1,0 +1,55 @@
+html {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-family);
+  font-size: 100%;
+
+  font-variation-settings: normal;
+  line-height: 1.15;
+  text-size-adjust: 100%;
+  font-synthesis-weight: none;
+  scroll-behavior: smooth;
+  text-rendering: optimizelegibility;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app,
+body,
+html {
+  width: 100%;
+  height: 100%;
+
+  /* scrollbar-gutter: stable; */
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+
+  /* pointer-events: auto !important; */
+
+  /* overflow: overlay; */
+
+  /* -webkit-font-smoothing: antialiased; */
+
+  /* -moz-osx-font-smoothing: grayscale; */
+}
+
+a,
+a:active,
+a:hover,
+a:link,
+a:visited {
+  text-decoration-line: none;
+}
+
+.clearfix {
+  &::after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: ' ';
+    clear: both;
+    height: 0;
+  }
+}
