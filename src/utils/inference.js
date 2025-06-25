@@ -118,6 +118,13 @@ function isNumber(value) {
   return typeof value === 'number' && Number.isFinite(value)
 }
 
+function isStringNumber(value) {
+  if (!isString(value)) {
+    return false
+  }
+  return !Number.isNaN(Number(value))
+}
+
 /**
  * Returns the first value in the provided list that is neither `null` nor `undefined`.
  *
@@ -159,6 +166,7 @@ export {
   isHttpUrl,
   isMacOs,
   isNumber,
+  isStringNumber,
   isObject,
   isString,
   isUndefined,

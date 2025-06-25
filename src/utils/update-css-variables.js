@@ -1,30 +1,27 @@
 /**
- * 更新 CSS 变量的函数
- * @param variables 要更新的 CSS 变量与其新值的映射
+ * 更新主题的 CSS 变量以及其他 CSS 变量
+ * @param preferences - 当前偏好设置对象，它的主题值将被用来设置文档的主题。
  */
-function updateCSSVariables(variables, id = '__styles__',) {
-  // 获取或创建内联样式表元素
-  const styleElement = document.querySelector(`#${id}`) || document.createElement('style')
-
-  styleElement.id = id
-
-  // 构建要更新的 CSS 变量的样式文本
-  let cssText = ':root {'
-  for (const key in variables) {
-    if (Object.prototype.hasOwnProperty.call(variables, key)) {
-      cssText += `${key}: ${variables[key]};`
-    }
+function updateCSSVariables(preferences) {
+  // 当修改到颜色变量时，更新 css 变量
+  const root = document.documentElement
+  if (!root) {
+    return
   }
-  cssText += '}'
 
-  // 将样式文本赋值给内联样式表
-  styleElement.textContent = cssText
+  const theme = preferences?.theme ?? {}
 
-  // 将内联样式表添加到文档头部
-  if (!document.querySelector(`#${id}`)) {
-    setTimeout(() => {
-      document.head.append(styleElement)
-    })
+  const { builtinType, mode, radius } = theme
+
+  // html 设置 dark 类
+  if (Reflect.has(theme, 'mode')) {
+    const dark = isDarkTheme(mode)
+    root.classList.toggle('dark', dark)
+  }
+
+  // 更新圆角
+  if (Reflect.has(theme, 'radius')) {
+    document.documentElement.style.setProperty('--radius', `${radius}rem`)
   }
 }
 

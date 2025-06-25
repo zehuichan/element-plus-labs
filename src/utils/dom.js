@@ -2,6 +2,8 @@ import { useWindowSize } from '@vueuse/core'
 
 import { upperFirst } from 'lodash-unified'
 
+import { isNumber, isString, isStringNumber } from '@/utils'
+
 export const stopPropagation = (event) => event.stopPropagation()
 
 export function preventDefault(event, isStopPropagation) {
@@ -170,5 +172,13 @@ export function getEventTargetNode(event, container, queryCls) {
   return { flag: false }
 }
 
-export const { width: windowWidth, height: windowHeight } = useWindowSize()
+export function addUnit(value, defaultUnit = 'px') {
+  if (!value) return ''
+  if (isNumber(value) || isStringNumber(value)) {
+    return `${value}${defaultUnit}`
+  } else if (isString(value)) {
+    return value
+  }
+}
 
+export const { width: windowWidth, height: windowHeight } = useWindowSize()
