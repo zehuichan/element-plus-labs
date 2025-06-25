@@ -1,9 +1,9 @@
 <template>
-  <el-config-provider size="small" >
+  <el-config-provider :locale="elementLocale" size="small">
     <router-view />
   </el-config-provider>
 </template>
 
-<script>
-
+<script setup>
+import { elementLocale } from '@/locales'
 </script>
