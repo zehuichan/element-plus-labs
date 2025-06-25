@@ -103,5 +103,11 @@
   /* header */
   --header: 0 0% 100%;
 
+  /* el-menu */
+  --el-menu-bg-color: hsl(var(--sidebar));
+  --el-menu-hover-bg-color: hsl(var(--accent));
+  --el-menu-text-color: hsl(var(--foreground) / 0.8);
+  --el-menu-hover-text-color: hsl(var(--accent));
+
   color-scheme: light;
 }

@@ -93,12 +93,19 @@
 
   /* =============component & UI============= */
 
+  /* menu */
   --sidebar: 222.34deg 10.43% 12.27%;
   --sidebar-deep: 220deg 13.06% 9%;
   --menu: var(--sidebar);
 
   /* header */
   --header: 222.34deg 10.43% 12.27%;
+
+  /* el-menu */
+  --el-menu-bg-color: hsl(var(--sidebar));
+  --el-menu-hover-bg-color: hsl(var(--accent));
+  --el-menu-text-color: hsl(var(--foreground) / 0.8);
+  --el-menu-hover-text-color: hsl(var(--accent));
 
   color-scheme: dark;
 }
