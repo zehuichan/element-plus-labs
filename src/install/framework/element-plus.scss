@@ -1,0 +1,44 @@
+.el-message {
+  --el-message-border-color: transparent;
+  --el-message-text-color: hsl(var(--text));
+  padding: 9px 12px;
+  background-color: hsl(var(--background));
+  box-shadow: var(--el-box-shadow-dark);
+
+  .el-message-icon--success {
+    color: var(--el-color-success);
+  }
+
+  .el-message-icon--warning {
+    color: var(--el-color-warning);
+  }
+
+  .el-message-icon--info {
+    color: var(--el-color-primary);
+  }
+
+  .el-message-icon--error {
+    color: var(--el-color-danger);
+  }
+
+  &.el-message-loading {
+    .i-icon {
+      color: var(--el-color-primary);
+    }
+  }
+
+  .el-message__content {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+
+.custom-segmented {
+  &.el-segmented {
+    --el-segmented-bg-color: hsl(var(--accent));
+    --el-segmented-item-hover-bg-color: none;
+    --el-border-radius-base: 8px;
+    height: 40px;
+    padding: 4px;
+  }
+}

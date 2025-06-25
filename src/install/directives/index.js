@@ -1,0 +1,3 @@
+export function setupGlobDirectives(app) {
+
+}
