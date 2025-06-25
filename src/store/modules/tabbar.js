@@ -1,16 +1,17 @@
 import { nextTick, toRaw } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
-import { openRouteInNewWindow } from '@/utils'
+import { openRouteInNewWindow, startProgress, stopProgress } from '@/utils'
 
 export const useTabbarStore = defineStore('tabbar', {
   actions: {
-    async _bulkCloseByPaths(paths) {
-      this.tabs = this.tabs.filter((item) => {
-        return !paths.includes(getTabPath(item))
-      })
+    async _bulkCloseByKeys(keys) {
+      const keySet = new Set(keys)
+      this.tabs = this.tabs.filter(
+        (item) => !keySet.has(getTabKeyFromTab(item))
+      )
 
-      this.updateCacheTab()
+      await this.updateCacheTabs()
     },
     _close(tab) {
       const { fullPath } = tab
@@ -40,13 +41,16 @@ export const useTabbarStore = defineStore('tabbar', {
       await router.replace(toParams)
     },
     addTab(routeTab) {
-      const tab = cloneTab(routeTab)
+      let tab = cloneTab(routeTab)
+      if (!tab.key) {
+        tab.key = getTabKey(routeTab)
+      }
       if (!isTabShown(tab)) {
-        return
+        return tab
       }
 
-      const tabIndex = this.tabs.findIndex((tab) => {
-        return getTabPath(tab) === getTabPath(routeTab)
+      const tabIndex = this.tabs.findIndex((item) => {
+        return equalTab(item, tab)
       })
 
       if (tabIndex === -1) {
@@ -83,81 +87,81 @@ export const useTabbarStore = defineStore('tabbar', {
           }
         }
 
+        tab = mergedTab
         this.tabs.splice(tabIndex, 1, mergedTab)
       }
-      this.updateCacheTab()
+      this.updateCacheTabs()
+      return tab
     },
     async closeAllTabs(router) {
       const newTabs = this.tabs.filter((tab) => isAffixTab(tab))
       this.tabs = newTabs.length > 0 ? newTabs : [...this.tabs].splice(0, 1)
       await this._goToDefaultTab(router)
-      this.updateCacheTab()
+      this.updateCacheTabs()
     },
     async closeLeftTabs(tab) {
-      const index = this.tabs.findIndex(
-        (item) => getTabPath(item) === getTabPath(tab),
-      )
+      const index = this.tabs.findIndex((item) => equalTab(item, tab))
 
       if (index < 1) {
         return
       }
 
       const leftTabs = this.tabs.slice(0, index)
-      const paths = []
+      const keys = []
 
       for (const item of leftTabs) {
         if (!isAffixTab(item)) {
-          paths.push(getTabPath(item))
+          keys.push(item)
         }
       }
-      await this._bulkCloseByPaths(paths)
+      await this._bulkCloseByKeys(keys)
     },
     async closeOtherTabs(tab) {
-      const closePaths = this.tabs.map((item) => getTabPath(item))
+      const closeKeys = this.tabs.map((item) => getTabKeyFromTab(item))
 
-      const paths = []
+      const keys = []
 
-      for (const path of closePaths) {
-        if (path !== tab.fullPath) {
-          const closeTab = this.tabs.find((item) => getTabPath(item) === path)
+      for (const key of closeKeys) {
+        if (key !== getTabKeyFromTab(tab)) {
+          const closeTab = this.tabs.find(
+            (item) => getTabKeyFromTab(item) === key,
+          )
           if (!closeTab) {
             continue
           }
           if (!isAffixTab(closeTab)) {
-            paths.push(getTabPath(closeTab))
+            keys.push(closeTab.key)
           }
         }
       }
-      await this._bulkCloseByPaths(paths)
+      await this._bulkCloseByKeys(keys)
     },
     async closeRightTabs(tab) {
-      const index = this.tabs.findIndex(
-        (item) => getTabPath(item) === getTabPath(tab),
-      )
+      const index = this.tabs.findIndex((item) => equalTab(item, tab))
 
       if (index >= 0 && index < this.tabs.length - 1) {
         const rightTabs = this.tabs.slice(index + 1)
 
-        const paths = []
+        const keys = []
         for (const item of rightTabs) {
           if (!isAffixTab(item)) {
-            paths.push(getTabPath(item))
+            keys.push(item.key)
           }
         }
-        await this._bulkCloseByPaths(paths)
+        await this._bulkCloseByKeys(keys)
       }
     },
     async closeTab(tab, router) {
       const { currentRoute } = router
 
       // 关闭不是激活选项卡
-      if (getTabPath(currentRoute.value) !== getTabPath(tab)) {
+      if (getTabKey(currentRoute.value) !== getTabKeyFromTab(tab)) {
         this._close(tab)
-        this.updateCacheTab()
+        this.updateCacheTabs()
         return
       }
       const index = this.getTabs.findIndex(
-        (item) => getTabPath(item) === getTabPath(currentRoute.value),
+        (item) => getTabKeyFromTab(item) === getTabKey(currentRoute.value),
       )
 
       const before = this.getTabs[index - 1]
@@ -178,7 +182,7 @@ export const useTabbarStore = defineStore('tabbar', {
     async closeTabByKey(key, router) {
       const originKey = decodeURIComponent(key)
       const index = this.tabs.findIndex(
-        (item) => getTabPath(item) === originKey,
+        (item) => getTabKeyFromTab(item) === originKey,
       )
       if (index === -1) {
         return
@@ -189,56 +193,62 @@ export const useTabbarStore = defineStore('tabbar', {
         await this.closeTab(tab, router)
       }
     },
-    getTabByPath(path) {
-      return this.getTabs.find((item) => getTabPath(item) === path)
+    getTabByKey(path) {
+      return this.getTabs.find((item) => getTabKeyFromTab(item) === key)
     },
     async openTabInNewWindow(tab) {
       openRouteInNewWindow(tab.fullPath || tab.path)
     },
     async pinTab(tab) {
-      const index = this.tabs.findIndex(
-        (item) => getTabPath(item) === getTabPath(tab),
-      )
-      if (index !== -1) {
-        const oldTab = this.tabs[index]
-        tab.meta.affixTab = true
-        tab.meta.title = oldTab?.meta?.title
-        // this.addTab(tab);
-        this.tabs.splice(index, 1, tab)
+      const index = this.tabs.findIndex((item) => equalTab(item, tab))
+      if (index === -1) {
+        return
       }
+      const oldTab = this.tabs[index]
+      tab.meta.affixTab = true
+      tab.meta.title = oldTab?.meta?.title
+      // this.addTab(tab);
+      this.tabs.splice(index, 1, tab)
       // 过滤固定tabs，后面更改affixTabOrder的值的话可能会有问题，目前行464排序affixTabs没有设置值
       const affixTabs = this.tabs.filter((tab) => isAffixTab(tab))
       // 获得固定tabs的index
-      const newIndex = affixTabs.findIndex(
-        (item) => getTabPath(item) === getTabPath(tab),
-      )
+      const newIndex = affixTabs.findIndex((item) => equalTab(item, tab))
       // 交换位置重新排序
       await this.sortTabs(index, newIndex)
     },
     async refresh(router) {
+      // 如果是Router路由，那么就根据当前路由刷新
+      // 如果是string字符串，为路由名称，则定向刷新指定标签页，不能是当前路由名称，否则不会刷新
+      if (typeof router === 'string') {
+        return await this.refreshByName(router)
+      }
+
       const { currentRoute } = router
       const { name } = currentRoute.value
 
       this.excludeCachedTabs.add(name)
       this.renderRouteView = false
+      startProgress()
 
       await new Promise((resolve) => setTimeout(resolve, 200))
 
       this.excludeCachedTabs.delete(name)
-      nextTick(() => {
-        this.renderRouteView = true
-      })
+      this.renderRouteView = true
+      stopProgress()
+    },
+    async refreshByName(name) {
+      this.excludeCachedTabs.add(name)
+      await new Promise((resolve) => setTimeout(resolve, 200))
+      this.excludeCachedTabs.delete(name)
     },
     async resetTabTitle(tab) {
       if (!tab?.meta?.newTabTitle) {
         return
       }
-      const findTab = this.tabs.find(
-        (item) => getTabPath(item) === getTabPath(tab),
-      )
+      const findTab = this.tabs.find((item) => equalTab(item, tab))
       if (findTab) {
         findTab.meta.newTabTitle = undefined
-        await this.updateCacheTab()
+        await this.updateCacheTabs()
       }
     },
     setAffixTabs(tabs) {
@@ -248,14 +258,12 @@ export const useTabbarStore = defineStore('tabbar', {
       }
     },
     async setTabTitle(tab, title) {
-      const findTab = this.tabs.find(
-        (item) => getTabPath(item) === getTabPath(tab),
-      )
+      const findTab = this.tabs.find((item) => equalTab(item, tab))
 
       if (findTab) {
         findTab.meta.newTabTitle = title
 
-        await this.updateCacheTab()
+        await this.updateCacheTabs()
       }
     },
     setUpdateTime() {
@@ -276,17 +284,15 @@ export const useTabbarStore = defineStore('tabbar', {
       await (affixTab ? this.unpinTab(tab) : this.pinTab(tab))
     },
     async unpinTab(tab) {
-      const index = this.tabs.findIndex(
-        (item) => getTabPath(item) === getTabPath(tab),
-      )
-
-      if (index !== -1) {
-        const oldTab = this.tabs[index]
-        tab.meta.affixTab = false
-        tab.meta.title = oldTab?.meta?.title
-        // this.addTab(tab);
-        this.tabs.splice(index, 1, tab)
+      const index = this.tabs.findIndex((item) => equalTab(item, tab))
+      if (index === -1) {
+        return
       }
+      const oldTab = this.tabs[index]
+      tab.meta.affixTab = false
+      tab.meta.title = oldTab?.meta?.title
+      // this.addTab(tab);
+      this.tabs.splice(index, 1, tab)
       // 过滤固定tabs，后面更改affixTabOrder的值的话可能会有问题，目前行464排序affixTabs没有设置值
       const affixTabs = this.tabs.filter((tab) => isAffixTab(tab))
       // 获得固定tabs的index,使用固定tabs的下一个位置也就是活动tabs的第一个位置
@@ -294,7 +300,7 @@ export const useTabbarStore = defineStore('tabbar', {
       // 交换位置重新排序
       await this.sortTabs(index, newIndex)
     },
-    updateCacheTab() {
+    updateCacheTabs() {
       const cacheMap = new Set()
 
       for (const tab of this.tabs) {
@@ -362,7 +368,7 @@ function cloneTab(route) {
   if (!route) {
     return route
   }
-  const { matched, ...opt } = route
+  const { matched, meta, ...opt } = route
   return {
     ...opt,
     matched: matched
@@ -371,7 +377,11 @@ function cloneTab(route) {
         name: item.name,
         path: item.path,
       }))
-      : undefined
+      : undefined,
+    meta: {
+      ...meta,
+      newTabTitle: meta.newTabTitle,
+    }
   }
 }
 
@@ -384,8 +394,36 @@ function isTabShown(tab) {
   return !tab.meta.hideInTab && matched.every((item) => !item.meta.hideInTab)
 }
 
-function getTabPath(tab) {
-  return decodeURIComponent(tab.fullPath || tab.path)
+function getTabKey(tab) {
+  const {
+    fullPath,
+    path,
+    meta: { fullPathKey } = {},
+    query = {},
+  } = tab
+  // pageKey可能是数组（查询参数重复时可能出现）
+  const pageKey = Array.isArray(query.pageKey)
+    ? query.pageKey[0]
+    : query.pageKey
+  let rawKey
+  if (pageKey) {
+    rawKey = pageKey
+  } else {
+    rawKey = fullPathKey === false ? path : (fullPath ?? path)
+  }
+  try {
+    return decodeURIComponent(rawKey)
+  } catch {
+    return rawKey
+  }
+}
+
+function getTabKeyFromTab(tab) {
+  return tab.key ?? getTabKey(tab)
+}
+
+function equalTab(a, b) {
+  return getTabKeyFromTab(a) === getTabKeyFromTab(b)
 }
 
 function routeToTab(route) {
@@ -393,6 +431,7 @@ function routeToTab(route) {
     meta: route.meta,
     name: route.name,
     path: route.path,
+    key: getTabKey(route),
   }
 }
 

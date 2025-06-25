@@ -2,6 +2,23 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export const useAccessStore = defineStore('access', {
   actions: {
+    getMenuByPath(path) {
+      function findMenu(menus, path) {
+        for (const menu of menus) {
+          if (menu.path === path) {
+            return menu
+          }
+          if (menu.children) {
+            const matched = findMenu(menu.children, path)
+            if (matched) {
+              return matched
+            }
+          }
+        }
+      }
+
+      return findMenu(this.accessMenus, path)
+    },
     setAccessCodes(codes) {
       this.accessCodes = codes
     },
@@ -41,7 +58,7 @@ export const useAccessStore = defineStore('access', {
 })
 
 // 解决热更新问题
-const hot = import.meta.hot;
+const hot = import.meta.hot
 if (hot) {
-  hot.accept(acceptHMRUpdate(useAccessStore, hot));
+  hot.accept(acceptHMRUpdate(useAccessStore, hot))
 }
