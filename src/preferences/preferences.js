@@ -159,7 +159,7 @@ class PreferenceManager {
 
   /**
    * 加载偏好设置
-   * @returns {Preferences} 加载的偏好设置
+   * @returns {{app: {accessMode: string, checkUpdatesInterval: number, defaultHomePath: string, dynamicTitle: boolean, enableCheckUpdates: boolean, enablePreferences: boolean, enableRefreshToken: boolean, isMobile: boolean, locale: string, name: string, watermark: boolean}, breadcrumb: {enable: boolean, hideOnlyOne: boolean, showHome: boolean}, copyright: {companyName: string, companySiteLink: string, date: string, enable: boolean, icp: string, icpLink: string}, footer: {enable: boolean, fixed: boolean}, header: {enable: boolean, hidden: boolean, mode: string, height: number}, logo: {enable: boolean, source: string}, navigation: {accordion: boolean, colorBg: string, colorHoverBg: string, colorText: string, colorHoverText: string, colorActiveText: string}, shortcutKeys: {enable: boolean, globalLogout: boolean, globalPreferences: boolean, globalSearch: boolean, globalInformation: boolean}, sidebar: {collapsed: boolean, enable: boolean, hidden: boolean, width: number, collapseWidth: number}, tabbar: {dragable: boolean, enable: boolean, height: number, keepAlive: boolean, persist: boolean, showIcon: boolean, showMaximize: boolean, showMore: boolean, showRefresh: boolean, styleType: string}, theme: {builtinType: string, colorDestructive: string, colorPrimary: string, colorSuccess: string, colorWarning: string, mode: string, radius: string, semiDarkHeader: boolean, semiDarkSidebar: boolean}, transition: {enable: boolean, loading: boolean, name: string, progress: boolean}, widget: {fullscreen: boolean, globalSearch: boolean, languageToggle: boolean, lockScreen: boolean, notification: boolean, refresh: boolean, sidebarToggle: boolean, themeToggle: boolean}}} 加载的偏好设置
    */
   loadPreferences() {
     return this.loadCachedPreferences() || { ...defaultPreferences }
@@ -224,4 +224,5 @@ class PreferenceManager {
 }
 
 const preferencesManager = new PreferenceManager()
+
 export { PreferenceManager, preferencesManager }

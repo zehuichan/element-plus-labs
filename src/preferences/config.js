@@ -2,7 +2,9 @@ const defaultPreferences = {
   app: {
     accessMode: 'frontend',
     checkUpdatesInterval: 1,
-    defaultHomePath: '/analytics',
+    colorGrayMode: false,
+    colorWeakMode: false,
+    defaultHomePath: '/demo',
     dynamicTitle: true,
     enableCheckUpdates: true,
     enablePreferences: true,
@@ -41,11 +43,6 @@ const defaultPreferences = {
   },
   navigation: {
     accordion: true,
-    colorBg: '#1c1e23',
-    colorHoverBg: 'hsl(0 0% 0% / 98%)',
-    colorText: '#ffffffb3',
-    colorHoverText: 'hsl(0 0% 98%)',
-    colorActiveText: 'hsl(212 100% 45%)',
   },
   shortcutKeys: {
     enable: true,
@@ -59,7 +56,7 @@ const defaultPreferences = {
     enable: true,
     hidden: false,
     width: 224,
-    collapseWidth: 64,
+    collapseWidth: 65,
   },
   tabbar: {
     dragable: true,
@@ -82,7 +79,7 @@ const defaultPreferences = {
     mode: 'dark',
     radius: '0.5',
     semiDarkHeader: false,
-    semiDarkSidebar: true,
+    semiDarkSidebar: false,
   },
   transition: {
     enable: true,
