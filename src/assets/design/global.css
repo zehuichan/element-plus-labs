@@ -115,6 +115,10 @@
     @apply flex items-center justify-center;
   }
 
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
   .flex-col-center {
     @apply flex flex-col items-center justify-center;
   }
@@ -145,6 +149,25 @@
 
   .card-box {
     @apply bg-card text-card-foreground border-border rounded-xl border;
+  }
+
+  .fl {
+    float: left;
+  }
+
+  .fr {
+    float: right;
+  }
+
+  .clearfix {
+    &::after {
+      visibility: hidden;
+      display: block;
+      font-size: 0;
+      content: ' ';
+      clear: both;
+      height: 0;
+    }
   }
 }
 

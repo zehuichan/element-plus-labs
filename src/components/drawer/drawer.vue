@@ -26,7 +26,7 @@
     </template>
     <template #footer>
       <slot name="footer">
-        <div class="flex flex-end">
+        <div class="flex justify-end">
           <el-button v-if="showCancelButton" plain @click="cancel">
             {{ cancelButtonText }}
           </el-button>
