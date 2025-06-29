@@ -4,7 +4,10 @@
       class="bg-accent group flex h-8 cursor-pointer items-center gap-3 rounded-2xl border-none bg-none px-2 py-0.5 outline-none"
       @click="toggleOpen()"
     >
-      <re-icon class="text-muted-foreground group-hover:text-foreground group-hover:opacity-100" icon="svg:search" />
+      <re-icon
+        class="text-muted-foreground group-hover:text-foreground group-hover:opacity-100" icon="svg:search"
+        size="16"
+      />
       <span
         class="text-muted-foreground group-hover:text-foreground hidden text-xs duration-300 md:block"
       >

@@ -28,7 +28,7 @@ const defaultPreferences = {
     icpLink: 'ICP 网站链接',
   },
   footer: {
-    enable: true,
+    enable: false,
     fixed: false,
   },
   header: {

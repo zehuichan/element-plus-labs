@@ -65,6 +65,7 @@ export function useTabs() {
     const tabs = tabStore.getTabs
     const affixTabs = tabStore.affixTabs
     const index = tabs.findIndex((item) => item.path === tab.path)
+
     const disabled = tabs.length <= 1
 
     const { meta } = tab

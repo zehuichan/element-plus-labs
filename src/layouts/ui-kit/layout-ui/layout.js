@@ -25,11 +25,6 @@ export const layoutProps = {
     type: Number,
     default: 64
   },
-  // 侧边栏是否可见
-  sidebarEnable: {
-    type: Boolean,
-    default: true
-  },
   // 侧边栏是否隐藏
   sidebarHidden: {
     type: Boolean,

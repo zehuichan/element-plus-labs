@@ -10,13 +10,16 @@
 </template>
 
 <script setup>
+import { ref, } from 'vue'
 import { updatePreferences, usePreferences } from '@/preferences'
+
+const flag = ref(false)
 
 const { isDark } = usePreferences()
 
 function toggleTheme() {
   updatePreferences({
-    theme: { mode: (isDark.value=!isDark.value) ? 'dark' : 'light' },
+    theme: { mode: (flag.value = !flag.value) ? 'dark' : 'light' },
   })
 }
 </script>

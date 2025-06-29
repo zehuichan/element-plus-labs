@@ -5,10 +5,11 @@
       v-model:collapse="sidebarCollapse"
       :dom-visible="!isMobile"
       :is-mobile="isMobile"
-      :show="showSidebar"
+      :show="!sidebarHidden"
       :theme="sidebarTheme"
       :width="getSidebarWidth"
       :collapse-width="getSidebarCollapseWidth"
+      :z-index="getSidebarZIndex"
     >
 
       <template #logo>
@@ -131,8 +132,10 @@ const headerFixed = computed(() => {
   )
 })
 
-const showSidebar = computed(() => {
-  return sidebarEnable.value && !props.sidebarHidden
+const getSidebarZIndex = computed(() => {
+  const { isMobile, zIndex } = props
+  let offset = isMobile ? 1 : -1
+  return zIndex + offset
 })
 
 const getHeaderWrapperHeight = computed(() => {
@@ -179,7 +182,9 @@ const mainStyle = computed(() => {
   let width = '100%'
   let sidebarAndExtraWidth = 'unset'
 
-  width = `calc(100% - ${getSidebarWidth.value}px)`
+  if (!props.isMobile) {
+    width = `calc(100% - ${getSidebarWidth.value}px)`
+  }
 
   return {
     sidebarAndExtraWidth,

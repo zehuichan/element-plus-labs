@@ -108,7 +108,7 @@ export function useTabbar(props) {
   )
 
   watch(
-    () => route.path,
+    () => route.fullPath,
     () => {
       const meta = route.matched?.[route.matched.length - 1]?.meta
       tabbarStore.addTab({

@@ -7,7 +7,6 @@
 
     :sidebar-theme="sidebarTheme"
     :sidebar-collapse="preferences.sidebar.collapsed"
-    :sidebar-enable="preferences.sidebar.enable"
     :sidebar-hidden="preferences.sidebar.hidden"
     :sidebar-width="preferences.sidebar.width"
     :sidebar-collapse-width="preferences.sidebar.collapseWidth"

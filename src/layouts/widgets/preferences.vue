@@ -7,6 +7,17 @@
       <re-icon icon="svg:settings" size="16" />
     </div>
     <drawer v-model="open" title="编好设置" size="24rem" @closed="handleClosed">
+      <template #extra>
+        <el-tooltip content="数据有变化，点击可进行重置">
+          <div class="popup-ui__header-item" @click="handleReset">
+            <div
+              v-if="diffPreference"
+              class="bg-primary absolute right-0.5 top-0.5 h-2 w-2 rounded"
+            />
+            <re-icon icon="park:redo" size="14" />
+          </div>
+        </el-tooltip>
+      </template>
       <el-segmented class="custom-segmented" v-model="activeTab" :options="TAB_PRESET" block />
       <template v-if="activeTab==='appearance'">
         <div class="flex flex-col py-4">
@@ -270,6 +281,14 @@ const listen = (key, subKey, val) => {
 const handleClosed = () => {
   activeTab.value = 'appearance'
   open.value = false
+}
+
+const handleReset = async () => {
+  if (!diffPreference.value) {
+    return
+  }
+  resetPreferences()
+  await loadLocaleMessages(preferences.app.locale)
 }
 
 const handleCopy = async () => {

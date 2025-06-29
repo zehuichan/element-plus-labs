@@ -7,7 +7,7 @@ export function usePreferences() {
   const initialPreferences = preferencesManager.getInitialPreferences()
 
   const diffPreference = computed(() => {
-    return diff(initialPreferences, preferences)
+    return diff(preferences, initialPreferences)
   })
 
   const appPreferences = computed(() => preferences.app)
