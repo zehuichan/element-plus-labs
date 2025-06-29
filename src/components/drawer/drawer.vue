@@ -9,11 +9,12 @@
     @close="onClose"
     @closed="onClosed"
   >
-    <template #header="{ close, titleId, titleClass }">
-      <div class="popup-ui__header">
+    <template #header="{ titleId, titleClass }">
+      <div class="popup-ui__header flex items-center justify-between">
         <div :id="titleId" :class="titleClass">{{ title }}</div>
-        <div class="popup-ui__header-item absolute right-3 top-4" @click="onClose">
-          <re-icon icon="park:close" />
+        <slot name="extra"></slot>
+        <div class="popup-ui__header-item ml-2" @click="onClose">
+          <re-icon icon="park:close" size="14" />
         </div>
       </div>
     </template>
