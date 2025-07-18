@@ -1,10 +1,15 @@
-
 import { Drawer } from './drawer'
 import { ReIcon } from './re-icon'
+import { ReButton } from './re-button'
+import { ReAutocomplete } from './re-autocomplete'
+import { ReInput } from './re-input'
 
 const components = [
   Drawer,
   ReIcon,
+  ReButton,
+  ReAutocomplete,
+  ReInput,
 ]
 
 export function setupComponents(app) {

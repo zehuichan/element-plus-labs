@@ -12,3 +12,5 @@ export * from './update-css-variables'
 export * from './util'
 export * from './window'
 export * from './popper'
+
+export { cloneDeep, get, isEqual, set } from 'lodash-unified'

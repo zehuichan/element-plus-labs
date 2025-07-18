@@ -10,17 +10,22 @@
 </template>
 
 <script setup>
-import { ref, } from 'vue'
+import { computed } from 'vue'
 import { updatePreferences, usePreferences } from '@/preferences'
-
-const flag = ref(false)
 
 const { isDark } = usePreferences()
 
+const flag = computed({
+  get: () => isDark.value,
+  set: (value) => {
+    updatePreferences({
+      theme: { mode: value ? 'dark' : 'light' },
+    })
+  },
+})
+
 function toggleTheme() {
-  updatePreferences({
-    theme: { mode: (flag.value = !flag.value) ? 'dark' : 'light' },
-  })
+  flag.value = !flag.value
 }
 </script>
 

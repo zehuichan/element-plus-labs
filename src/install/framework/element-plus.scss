@@ -1,6 +1,6 @@
 .el-message {
   --el-message-border-color: transparent;
-  --el-message-text-color: hsl(var(--text));
+  --el-message-text-color: hsl(var(--muted-foreground));
   padding: 9px 12px;
   background-color: hsl(var(--background));
   box-shadow: var(--el-box-shadow-dark);

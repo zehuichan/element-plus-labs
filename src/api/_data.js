@@ -36,25 +36,6 @@ const MENU_DATA = [
     ]
   },
   {
-    path: '/feature',
-    name: 'feature',
-    component: 'LAYOUT',
-    meta: {
-      title: '演示',
-      icon: 'park:tips'
-    },
-    children: [
-      {
-        path: '/feature/unocss',
-        component: '/feat/unocss/index',
-        name: 'unocss',
-        meta: {
-          title: 'unocss',
-        }
-      }
-    ]
-  },
-  {
     path: '/examples',
     name: 'Examples',
     component: 'LAYOUT',
