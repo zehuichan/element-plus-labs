@@ -1,5 +1,8 @@
 <template>
-  <component :is="h(ElInput, bindProps, $slots)" />
+  <component
+    :is="h(ElInput, bindProps, $slots)"
+    :ref="changeInstance"
+  />
 </template>
 
 <script setup>
@@ -18,8 +21,8 @@ const attrs = useAttrs()
 const bindProps = computed(() => {
   return {
     ...attrs,
+    clearable: true,
     placeholder: attrs.placeholder || '请输入',
-    ref: changeInstance,
   }
 })
 

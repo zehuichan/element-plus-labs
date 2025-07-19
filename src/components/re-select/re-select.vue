@@ -1,5 +1,8 @@
 <template>
-  <component :is="h(ApiComponent, bindProps, $slots)" />
+  <component
+    :is="h(ApiComponent, bindProps, $slots)"
+    :ref="changeInstance"
+  />
 </template>
 
 <script setup>
@@ -22,8 +25,8 @@ const bindProps = computed(() => {
   return {
     ...attrs,
     component: ElSelectV2,
-    ref: changeInstance,
     placeholder: attrs.placeholder || '请选择',
+    clearable: true,
     filterable: true,
     visibleEvent: 'onVisibleChange',
   }
