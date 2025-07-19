@@ -36,7 +36,7 @@ const props = defineProps({
   },
   childrenField: {
     type: String,
-    default: '',
+    default: 'children',
   },
   valueField: {
     type: String,
