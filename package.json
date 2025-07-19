@@ -15,7 +15,7 @@
     "@vue/shared": "^3.5.17",
     "@vueuse/core": "^13.5.0",
     "axios": "^1.10.0",
-    "element-plus": "^2.10.3",
+    "element-plus": "^2.10.4",
     "lodash-unified": "^1.0.3",
     "nprogress": "^0.2.0",
     "pinia": "^3.0.3",
