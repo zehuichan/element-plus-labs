@@ -1,5 +1,9 @@
 <template>
-  <component :is="h(ElAutocomplete, bindProps, $slots)" :ref="changeInstance" v-model="modelValue" />
+  <component
+    :is="h(ElAutocomplete, bindProps, $slots)"
+    :ref="changeInstance"
+    v-model="modelValue"
+  />
 </template>
 
 <script setup>
@@ -55,8 +59,6 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['optionsChange'])
-
 const modelValue = defineModel('modelValue', { default: undefined })
 // 如果需要单独获取label和value值，可以使用以下两个model
 const labelValue = defineModel('label', { default: undefined })
@@ -75,6 +77,7 @@ const bindProps = computed(() => {
   return {
     ...attrs,
     valueKey: props.labelField,
+    clearable: true,
     onSelect(item) {
       labelValue.value = get(item, props.labelField)
       valueValue.value = get(item, props.valueField)
