@@ -4,6 +4,7 @@ import { ReButton } from './re-button'
 import { ReSelect } from './re-select'
 import { ReTreeSelect } from './re-tree-select'
 import { ReRadioGroup } from './re-radio-group'
+import { ReCheckboxGroup } from './re-checkbox-group'
 import { ReAutocomplete } from './re-autocomplete'
 import { ReInput } from './re-input'
 
@@ -14,6 +15,7 @@ const components = [
   ReSelect,
   ReTreeSelect,
   ReRadioGroup,
+  ReCheckboxGroup,
   ReAutocomplete,
   ReInput,
 ]
