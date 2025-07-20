@@ -1,6 +1,9 @@
 import { Drawer } from './drawer'
 import { ReIcon } from './re-icon'
 import { ReButton } from './re-button'
+import { ReSelect } from './re-select'
+import { ReTreeSelect } from './re-tree-select'
+import { ReRadioGroup } from './re-radio-group'
 import { ReAutocomplete } from './re-autocomplete'
 import { ReInput } from './re-input'
 
@@ -8,6 +11,9 @@ const components = [
   Drawer,
   ReIcon,
   ReButton,
+  ReSelect,
+  ReTreeSelect,
+  ReRadioGroup,
   ReAutocomplete,
   ReInput,
 ]
