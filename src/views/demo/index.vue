@@ -1,7 +1,76 @@
 <template>
   <div class="bg-card p-3">
-    <el-form>
-      <el-form-item>
+    <el-form label-position="top">
+      <el-form-item label="ReInput">
+        <ReInput
+          v-model="dataForm.value"
+        />
+      </el-form-item>
+      <el-form-item label="ReMention">
+        <ReMention
+          v-model="dataForm.mention"
+          :api="getDicts"
+          label-field="label"
+          value-field="label"
+          result-field="data"
+        />
+      </el-form-item>
+      <el-form-item label="ReSelect">
+        <ReSelect
+          v-model="dataForm.select"
+          :options="options"
+        />
+      </el-form-item>
+      <el-form-item label="ReTreeSelect">
+        <ReTreeSelect
+          v-model="dataForm.select2"
+          :api="getAllMenusApi"
+          label-field="name"
+          value-field="path"
+          result-field="data"
+        />
+      </el-form-item>
+      <el-form-item label="ReRadio">
+        <ReRadioGroup
+          v-model="dataForm.radio"
+          :api="getDicts"
+          label-field="label"
+          value-field="value"
+          result-field="data"
+          border
+        />
+      </el-form-item>
+      <el-form-item label="ReRadioButton">
+        <ReRadioGroup
+          v-model="dataForm.radio"
+          :api="getDicts"
+          label-field="label"
+          value-field="value"
+          result-field="data"
+          button
+        />
+      </el-form-item>
+      <el-form-item label="ReCheckboxGroup">
+        <ReCheckboxGroup
+          v-model="dataForm.checkbox"
+          :api="getDicts"
+          label-field="label"
+          value-field="value"
+          result-field="data"
+          border
+        />
+      </el-form-item>
+      <el-form-item label="ReCheckboxGroup">
+        <ReCheckboxGroup
+          v-model="dataForm.checkbox"
+          :api="getDicts"
+          label-field="label"
+          value-field="value"
+          result-field="data"
+          button
+        />
+      </el-form-item>
+      <el-form-item label="ReAutocomplete">
         <ReAutocomplete
           v-model:label="dataForm.userName"
           v-model:value="dataForm.userId"
@@ -11,7 +80,6 @@
           label-field="label"
           value-field="value"
           result-field="data"
-          clearable
         />
       </el-form-item>
       <el-form-item>
@@ -29,8 +97,21 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getDicts } from '@/api/dict'
+import { getAllMenusApi } from '@/api/sys'
+
+const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+const options = Array.from({ length: 1000 }).map((_, idx) => ({
+  value: `Option ${idx + 1}`,
+  label: `${initials[idx % 10]}${idx}`,
+}))
 
 const dataForm = ref({
+  value: '',
+  mention: '@',
+  select: '',
+  select2: '',
+  radio: '',
+  checkbox: [],
   userName: '',
   userId: '',
 })
