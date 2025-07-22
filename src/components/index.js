@@ -7,6 +7,7 @@ import { ReRadioGroup } from './re-radio-group'
 import { ReCheckboxGroup } from './re-checkbox-group'
 import { ReAutocomplete } from './re-autocomplete'
 import { ReInput } from './re-input'
+import { ReMention } from './re-mention'
 
 const components = [
   Drawer,
@@ -18,6 +19,7 @@ const components = [
   ReCheckboxGroup,
   ReAutocomplete,
   ReInput,
+  ReMention,
 ]
 
 export function setupComponents(app) {
