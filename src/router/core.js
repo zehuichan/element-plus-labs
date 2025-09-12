@@ -27,6 +27,11 @@ const coreRoutes = [
     name: 'Center',
     component: () => import('@/views/_core/center/index.vue'),
   },
+  {
+    path: '/example',
+    name: 'Example',
+    component: () => import('@/views/example/index.vue'),
+  },
 ]
 
 export { coreRoutes, fallbackNotFoundRoute }

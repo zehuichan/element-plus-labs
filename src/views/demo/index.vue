@@ -3,7 +3,7 @@
     <el-form label-position="top">
       <el-form-item label="ReInput">
         <ReInput
-          v-model="dataForm.value"
+          v-model="dataForm.input"
         />
       </el-form-item>
       <el-form-item label="ReMention">
@@ -30,7 +30,7 @@
           result-field="data"
         />
       </el-form-item>
-      <el-form-item label="ReRadio">
+      <el-form-item label="ReRadio(border)">
         <ReRadioGroup
           v-model="dataForm.radio"
           :api="getDicts"
@@ -40,7 +40,7 @@
           border
         />
       </el-form-item>
-      <el-form-item label="ReRadioButton">
+      <el-form-item label="ReRadio(button)">
         <ReRadioGroup
           v-model="dataForm.radio"
           :api="getDicts"
@@ -50,7 +50,7 @@
           button
         />
       </el-form-item>
-      <el-form-item label="ReCheckboxGroup">
+      <el-form-item label="ReCheckboxGroup(border)">
         <ReCheckboxGroup
           v-model="dataForm.checkbox"
           :api="getDicts"
@@ -60,7 +60,7 @@
           border
         />
       </el-form-item>
-      <el-form-item label="ReCheckboxGroup">
+      <el-form-item label="ReCheckboxGroup(button)">
         <ReCheckboxGroup
           v-model="dataForm.checkbox"
           :api="getDicts"
@@ -106,8 +106,8 @@ const options = Array.from({ length: 1000 }).map((_, idx) => ({
 }))
 
 const dataForm = ref({
-  value: '',
-  mention: '@',
+  input: '',
+  mention: '',
   select: '',
   select2: '',
   radio: '',
@@ -127,6 +127,7 @@ const getData = async () => {
 
 // 表单数据提交
 const submit = async () => {
+
 }
 
 onMounted(() => {

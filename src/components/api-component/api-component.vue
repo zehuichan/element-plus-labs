@@ -5,10 +5,10 @@ import { cloneDeep, get, isEqual, isFunction } from '@/utils'
 
 import { objectOmit } from '@vueuse/core'
 
-  defineOptions({
-    name: 'ApiComponent',
-    inheritAttrs: false
-  })
+defineOptions({
+  name: 'ApiComponent',
+  inheritAttrs: false
+})
 
 const props = defineProps({
   component: {
@@ -268,7 +268,7 @@ function emitChange() {
 }
 
 function changeInstance(instance) {
-  vm.exposeProxy = vm.exposeProxy = instance || {}
+  vm.exposed = vm.exposeProxy = instance || {}
 }
 </script>
 

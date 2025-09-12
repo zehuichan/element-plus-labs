@@ -158,7 +158,7 @@ async function fetchApi(pattern, prefix) {
 }
 
 function changeInstance(instance) {
-  vm.exposeProxy = vm.exposeProxy = instance || {}
+  vm.exposed = vm.exposeProxy = instance || {}
 }
 </script>
 
