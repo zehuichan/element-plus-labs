@@ -43,7 +43,16 @@ export default defineConfig(({ command, mode }) => {
     server: {
       host: true,
       port: VITE_PORT,
-      proxy: createProxy(VITE_PROXY)
+      // proxy: createProxy(VITE_PROXY)
+      proxy: {
+        '/api': {
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+          // mock代理目标地址
+          target: 'http://localhost:3000/api',
+          ws: true,
+        },
+      }
     },
     css: {
       preprocessorOptions: {

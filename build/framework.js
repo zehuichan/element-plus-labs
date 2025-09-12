@@ -3,7 +3,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // todo 目前使用完整引入
-export function configElementPlusPlugin() {
+export function configFrameworkPlugin() {
   return [
     AutoImport({
       resolvers: [ElementPlusResolver()]

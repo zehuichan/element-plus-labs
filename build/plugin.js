@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 import { configHtmlPlugin } from './html'
 import { configCompressPlugin } from './compress'
-import { configElementPlusPlugin } from './element'
+import { configFrameworkPlugin } from './framework'
 
 export function createVitePlugins(viteEnv, isBuild) {
   const {
@@ -24,7 +24,7 @@ export function createVitePlugins(viteEnv, isBuild) {
   // vite-plugin-html
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
 
-  vitePlugins.push(configElementPlusPlugin())
+  vitePlugins.push(configFrameworkPlugin())
 
   if (isBuild) {
     // rollup-plugin-gzip
