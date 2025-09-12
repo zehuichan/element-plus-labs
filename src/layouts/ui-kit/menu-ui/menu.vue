@@ -23,7 +23,6 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-import { useAccessStore } from '@/store'
 import { isHttpUrl } from '@/utils'
 
 import MenuItem from './menu-item.vue'
@@ -79,6 +78,11 @@ const onSelect = (index) => {
     font-size: 16px;
     margin-right: 8px;
     width: 16px;
+  }
+
+  .menu-badge {
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .is-truncated {

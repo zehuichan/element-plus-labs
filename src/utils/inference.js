@@ -17,7 +17,7 @@ function isUndefined(value) {
 /**
  * 检查传入的值是否为boolean
  * @param value
- * @returns 如果值是布尔值，返回true，否则返回false。
+ * @returns {boolean} 如果值是布尔值，返回true，否则返回false。
  */
 function isBoolean(value) {
   return typeof value === 'boolean'
@@ -113,6 +113,7 @@ function isWindowsOs() {
 /**
  * 检查传入的值是否为数字
  * @param value
+ * @returns {boolean} 如果值是数字，返回true，否则返回false。
  */
 function isNumber(value) {
   return typeof value === 'number' && Number.isFinite(value)

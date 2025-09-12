@@ -178,3 +178,21 @@ html.invert-mode {
 html.grayscale-mode {
   @apply grayscale;
 }
+
+code {
+  position: relative;
+  display: block;
+  padding: 16px;
+  overflow-x: auto;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: lucida console, Consolas, Monaco, andale mono, ubuntu mono, monospace;
+  line-height: 26px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  -moz-osx-font-smoothing: auto;
+  -webkit-font-smoothing: antialiased;
+  color: hsl(var(--accent-foreground));
+  background-color: hsl(var(--accent));
+  border-radius: 4px;
+}

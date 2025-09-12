@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-const collapsed = defineModel('collapsed')
+const collapsed = defineModel()
 
 function handleCollapsed() {
   collapsed.value = !collapsed.value

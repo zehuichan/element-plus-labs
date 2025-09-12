@@ -13,4 +13,4 @@ export * from './util'
 export * from './window'
 export * from './popper'
 
-export { cloneDeep, get, isEqual, set } from 'lodash-unified'
+export { cloneDeep, get, isEqual, set, castArray as ensureArray } from 'lodash-unified'

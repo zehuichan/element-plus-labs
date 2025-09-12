@@ -51,18 +51,8 @@ export function useTabbar(props) {
     ],
     ([tabs]) => {
       currentTabs.value = tabs.map((tab) => {
-        const { fullPath, meta, name, path } = tab || {}
-        const { affixTab, icon, newTabTitle, tabClosable, title } = meta || {}
         return {
-          affixTab: !!affixTab,
-          closable: Reflect.has(meta, 'tabClosable') ? !!tabClosable : true,
-          fullPath,
-          icon: icon,
-          key: fullPath || path,
-          meta,
-          name,
-          path,
-          title: newTabTitle || title || name,
+          ...tab,
         }
       })
     },

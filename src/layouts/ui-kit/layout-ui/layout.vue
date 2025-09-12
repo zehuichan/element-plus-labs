@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex min-h-full w-full">
+  <div class="relative flex min-h-full w-full contain-style">
     <!--sidebar-->
     <layout-sidebar
       v-model:collapse="sidebarCollapse"
@@ -18,13 +18,19 @@
       <template #default>
         <slot name="menu"></slot>
       </template>
+      <template #trigger>
+        <slot name="trigger"></slot>
+      </template>
+      <template #splitter>
+        <slot name="splitter"></slot>
+      </template>
     </layout-sidebar>
     <div
       ref="contentRef"
       class="flex flex-1 flex-col overflow-hidden transition-all duration-200 ease-in"
     >
       <div
-        :class="[{'shadow-[0_16px_24px_hsl(var(--background))]': scrollY > 20}, SCROLL_FIXED_CLASS]"
+        :class="[{'shadow-[0_3px_3px_hsl(var(--background))]': scrollY > 20}, SCROLL_FIXED_CLASS]"
         :style="headerWrapperStyle"
         class="overflow-hidden transition-all duration-200"
       >
@@ -212,6 +218,6 @@ const contentStyle = computed(() => {
 })
 </script>
 
-<style>
+<style lang="scss">
 
 </style>

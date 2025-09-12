@@ -4,7 +4,7 @@
       <re-icon :key="menu.icon" :icon="menu.icon" />
     </i>
     <span class="is-truncated">{{ menu.name }}</span>
-    <div v-if="!collapse && menu.badge" class="absolute right-2 leading-none">
+    <div v-if="!collapse && menu.badge" class="menu-badge absolute right-2 leading-none">
       <el-badge :type="menu.badgeVariants" :value="menu.badge" :is-dot="menu.badgeType==='dot'" />
     </div>
   </el-menu-item>
@@ -17,8 +17,8 @@
         <re-icon :icon="menu.icon" />
       </i>
       <span class="is-truncated">{{ menu.name }}</span>
-      <div v-if="!collapse && menu.badge" class="absolute right-2 leading-none">
-        <el-badge :type="menu.badgeVariants" :value="menu.badge" :is-dot="menu.badgeType==='dot'" />
+      <div v-if="!collapse && menu.badge" class="menu-badge absolute right-8 leading-none">
+        <el-badge :type="menu.badgeVariants" :value="menu.badge"  :is-dot="menu.badgeType==='dot'" />
       </div>
     </template>
     <menu-item

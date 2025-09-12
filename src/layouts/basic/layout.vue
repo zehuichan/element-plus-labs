@@ -70,10 +70,24 @@
     <template v-if="preferences.tabbar.enable" #tabbar>
       <tabs-view />
     </template>
+    <template #logo>
+      logo
+    </template>
     <template #menu>
       <menu-view
         :menus="menus"
         :theme="sidebarTheme"
+        :collapse="preferences.sidebar.collapsed"
+      />
+    </template>
+    <template #trigger>
+      <sidebar-trigger
+        v-model="sidebarCollapsed"
+      />
+    </template>
+    <template #splitter>
+      <splitter
+        v-model="sidebarWidth"
         :collapse="preferences.sidebar.collapsed"
       />
     </template>
@@ -116,6 +130,8 @@ import {
   Notification,
   Userinfo,
   ContentSpinner,
+  Splitter,
+  SidebarTrigger,
 } from '@/layouts/widgets'
 
 const authStore = useAuthStore()
@@ -128,6 +144,16 @@ const menus = computed(() => accessStore.accessMenus)
 const sidebarTheme = computed(() => {
   const dark = isDark.value || preferences.theme.semiDarkSidebar
   return dark ? 'dark' : 'light'
+})
+
+const sidebarCollapsed = computed({
+  get: () => preferences.sidebar.collapsed,
+  set: (value) => updatePreferences({ sidebar: { collapsed: value } })
+})
+
+const sidebarWidth = computed({
+  get: () => preferences.sidebar.width,
+  set: (value) => updatePreferences({ sidebar: { width: value } })
 })
 
 const headerTheme = computed(() => {

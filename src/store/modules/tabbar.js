@@ -14,16 +14,14 @@ export const useTabbarStore = defineStore('tabbar', {
       await this.updateCacheTabs()
     },
     _close(tab) {
-      const { fullPath } = tab
       if (isAffixTab(tab)) {
         return
       }
-      const index = this.tabs.findIndex((item) => item.fullPath === fullPath)
+      const index = this.tabs.findIndex((item) => equalTab(item, tab))
       index !== -1 && this.tabs.splice(index, 1)
     },
     async _goToDefaultTab(router) {
       if (this.getTabs.length <= 0) {
-        // TODO: 跳转首页
         return
       }
       const firstTab = this.getTabs[0]
@@ -111,7 +109,7 @@ export const useTabbarStore = defineStore('tabbar', {
 
       for (const item of leftTabs) {
         if (!isAffixTab(item)) {
-          keys.push(item)
+          keys.push(item.key)
         }
       }
       await this._bulkCloseByKeys(keys)
@@ -435,3 +433,4 @@ function routeToTab(route) {
   }
 }
 
+export { getTabKey }
