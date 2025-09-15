@@ -16,6 +16,7 @@
     "@vueuse/core": "^13.9.0",
     "async-validator": "^4.2.5",
     "axios": "^1.11.0",
+    "dayjs": "^1.11.18",
     "element-plus": "^2.11.2",
     "lodash-unified": "^1.0.3",
     "mitt": "^3.0.1",
