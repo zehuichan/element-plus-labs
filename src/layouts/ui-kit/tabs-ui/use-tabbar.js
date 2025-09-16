@@ -3,7 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import { useAccessStore, useTabbarStore } from '@/store'
 import { filterTree } from '@/utils/tree-helper'
-import { useTabs } from '@/composables/useTabs'
+import { useTabs } from '@/composables/use-tabs'
 import { useI18n } from '@/locales'
 import {
   CloseOne,
@@ -12,7 +12,8 @@ import {
   Pin,
   Pushpin,
   Redo,
-  ToLeft, ToRight,
+  ToLeft,
+  ToRight,
   TransferData
 } from '@icon-park/vue-next'
 

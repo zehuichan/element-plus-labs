@@ -42,7 +42,7 @@
 
 <script setup>
 import { computed, useAttrs } from 'vue'
-import { usePriorityValues } from '@/composables/usePriorityValues'
+import { usePriorityValues } from '@/composables/use-priority-values'
 import { drawerProps, drawerEmits } from './drawer'
 
 defineOptions({

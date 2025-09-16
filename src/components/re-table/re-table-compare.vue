@@ -55,8 +55,8 @@ import {
 
 import { cloneDeep, findIndex, isEqual } from 'lodash-unified'
 
-import { useAccess } from '@/composables/useAccess'
-import { useMemoryOptimizer } from '@/composables/useMemoryOptimizer'
+import { useAccess } from '@/composables/use-access'
+import { useMemoryOptimizer } from '@/composables/use-memory-optimizer'
 
 import {
   getEventTargetNode,

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex min-h-full w-full contain-style">
+  <div class="relative flex min-h-full w-full contain-style" content="Zehui Chan" z-index="300">
     <!--sidebar-->
     <layout-sidebar
       v-model:collapse="sidebarCollapse"
@@ -30,7 +30,7 @@
       class="flex flex-1 flex-col overflow-hidden transition-all duration-200 ease-in"
     >
       <div
-        :class="[{'shadow-[0_3px_3px_hsl(var(--background))]': scrollY > 20}, SCROLL_FIXED_CLASS]"
+        :class="[SCROLL_FIXED_CLASS]"
         :style="headerWrapperStyle"
         class="overflow-hidden transition-all duration-200"
       >
@@ -108,7 +108,6 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useScroll } from '@vueuse/core'
 import {
   LayoutContent,
   LayoutFooter,
@@ -124,10 +123,6 @@ const sidebarCollapse = defineModel('sidebarCollapse', { default: false })
 const sidebarEnable = defineModel('sidebarEnable', { default: true })
 
 const SCROLL_FIXED_CLASS = '_scroll__fixed_'
-
-const {
-  y: scrollY,
-} = useScroll(document)
 
 const headerFixed = computed(() => {
   const { headerMode } = props

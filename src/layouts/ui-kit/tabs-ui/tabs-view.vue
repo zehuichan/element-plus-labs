@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { useTabs } from '@/composables/useTabs'
+import { useTabs } from '@/composables/use-tabs'
 
 import { useTabsDrag } from './use-tabs-drag'
 import { useTabsViewScroll } from './use-tabs-view-scroll'

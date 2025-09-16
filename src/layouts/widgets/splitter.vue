@@ -207,7 +207,6 @@ const onTouchMove = (e) => {
     &::after {
       opacity: 1;
       background: var(--el-color-primary-dark-2);
-      box-shadow: 0 0 3px 3px hsl(var(--background));
       width: 1px;
       height: 100%;
       right: 2px;

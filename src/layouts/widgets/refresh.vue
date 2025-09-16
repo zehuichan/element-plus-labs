@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { useRefresh } from '@/composables/useRefresh'
+import { useRefresh } from '@/composables/use-refresh'
 
 const { refresh } = useRefresh()
 </script>

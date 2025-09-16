@@ -1,5 +1,5 @@
-import { ref, computed } from "vue";
-import { isFunction } from "@/utils";
+import { ref, computed } from 'vue'
+import { isFunction } from '@/utils'
 
 /**
  * @property {number} progress - 进度百分比 (0-100)
@@ -92,7 +92,7 @@ import { isFunction } from "@/utils";
  * @param {BatchOperationConfig} [config={}] - 配置项
  * @returns {BatchOperationReturn} 返回批量操作相关的响应式数据和方法
  */
-export function useBatchOperation(config = {}) {
+export function useTaskQueue(config = {}) {
   const {
     api,
     concurrency = 3,
@@ -100,35 +100,35 @@ export function useBatchOperation(config = {}) {
     onSuccess,
     onError,
     onComplete,
-  } = config;
+  } = config
 
   // 响应式状态
-  const loading = ref(false);
-  const progress = ref(0);
-  const total = ref(0);
-  const completed = ref(0);
-  const failed = ref(0);
-  const results = ref([]);
-  const errors = ref([]);
+  const loading = ref(false)
+  const progress = ref(0)
+  const total = ref(0)
+  const completed = ref(0)
+  const failed = ref(0)
+  const results = ref([])
+  const errors = ref([])
 
   // 控制状态
-  const abortController = ref(null);
-  const isStopped = ref(false);
-  const isPaused = ref(false);
-  const pausePromiseResolve = ref(null);
+  const abortController = ref(null)
+  const isStopped = ref(false)
+  const isPaused = ref(false)
+  const pausePromiseResolve = ref(null)
 
   // 计算属性
   const isCompleted = computed(
     () => completed.value + failed.value === total.value
-  );
+  )
   const successRate = computed(() => {
-    if (total.value === 0) return 0;
-    return Math.round((completed.value / total.value) * 100);
-  });
+    if (total.value === 0) return 0
+    return Math.round((completed.value / total.value) * 100)
+  })
   const failureRate = computed(() => {
-    if (total.value === 0) return 0;
-    return Math.round((failed.value / total.value) * 100);
-  });
+    if (total.value === 0) return 0
+    return Math.round((failed.value / total.value) * 100)
+  })
 
   /**
    * 延迟函数
@@ -136,7 +136,7 @@ export function useBatchOperation(config = {}) {
    * @returns {Promise<void>}
    */
   function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms))
   }
 
   /**
@@ -145,12 +145,12 @@ export function useBatchOperation(config = {}) {
    */
   function waitForResume() {
     if (!isPaused.value) {
-      return Promise.resolve();
+      return Promise.resolve()
     }
 
     return new Promise((resolve) => {
-      pausePromiseResolve.value = resolve;
-    });
+      pausePromiseResolve.value = resolve
+    })
   }
 
   /**
@@ -160,48 +160,48 @@ export function useBatchOperation(config = {}) {
    * @returns {Promise<Array>} Promise.allSettled 的结果
    */
   async function limitConcurrency(tasks, limit) {
-    const results = [];
-    const executing = [];
+    const results = []
+    const executing = []
 
     for (const [index, task] of tasks.entries()) {
       // 检查是否已停止
       if (isStopped.value) {
-        break;
+        break
       }
 
       // 检查是否暂停，如果暂停则等待恢复
       if (isPaused.value) {
-        await waitForResume();
+        await waitForResume()
       }
 
       // 再次检查停止状态（在等待暂停解除后）
       if (isStopped.value) {
-        break;
+        break
       }
 
       const promise = executeTask(task, index).then((result) => {
-        executing.splice(executing.indexOf(promise), 1);
-        return result;
-      });
+        executing.splice(executing.indexOf(promise), 1)
+        return result
+      })
 
-      results.push(promise);
-      executing.push(promise);
+      results.push(promise)
+      executing.push(promise)
 
       if (executing.length >= limit) {
-        await Promise.race(executing);
+        await Promise.race(executing)
 
         // 在等待后再次检查是否已停止或暂停
         if (isStopped.value) {
-          break;
+          break
         }
 
         if (isPaused.value) {
-          await waitForResume();
+          await waitForResume()
         }
       }
     }
 
-    return Promise.allSettled(results);
+    return Promise.allSettled(results)
   }
 
   /**
@@ -214,40 +214,40 @@ export function useBatchOperation(config = {}) {
     try {
       // 检查是否已停止
       if (isStopped.value) {
-        throw new Error("Operation was stopped");
+        throw new Error('Operation was stopped')
       }
 
       // 检查是否暂停
       if (isPaused.value) {
-        await waitForResume();
+        await waitForResume()
       }
 
       // 暂停解除后再次检查是否已停止
       if (isStopped.value) {
-        throw new Error("Operation was stopped");
+        throw new Error('Operation was stopped')
       }
 
       if (!isFunction(api)) {
-        throw new Error("API function is required");
+        throw new Error('API function is required')
       }
 
-      const result = await api(item);
+      const result = await api(item)
 
       // 更新成功计数
-      completed.value++;
+      completed.value++
 
       // 更新进度
       progress.value = Math.round(
         ((completed.value + failed.value) / total.value) * 100
-      );
+      )
 
       // 存储成功结果
       results.value.push({
         index,
         item,
         result,
-        status: "success",
-      });
+        status: 'success',
+      })
 
       // 触发进度回调
       if (isFunction(onProgress)) {
@@ -258,31 +258,31 @@ export function useBatchOperation(config = {}) {
           total: total.value,
           current: item,
           result,
-        });
+        })
       }
 
       // 触发成功回调
       if (isFunction(onSuccess)) {
-        onSuccess(result, item, index);
+        onSuccess(result, item, index)
       }
 
-      return { status: "fulfilled", value: result, item, index };
+      return { status: 'fulfilled', value: result, item, index }
     } catch (error) {
       // 更新失败计数
-      failed.value++;
+      failed.value++
 
       // 更新进度
       progress.value = Math.round(
         ((completed.value + failed.value) / total.value) * 100
-      );
+      )
 
       // 存储错误信息
       errors.value.push({
         index,
         item,
         error,
-        status: "error",
-      });
+        status: 'error',
+      })
 
       // 触发进度回调
       if (isFunction(onProgress)) {
@@ -293,15 +293,15 @@ export function useBatchOperation(config = {}) {
           total: total.value,
           current: item,
           error,
-        });
+        })
       }
 
       // 触发错误回调
       if (isFunction(onError)) {
-        onError(error, item, index);
+        onError(error, item, index)
       }
 
-      return { status: "rejected", reason: error, item, index };
+      return { status: 'rejected', reason: error, item, index }
     }
   }
 
@@ -313,38 +313,38 @@ export function useBatchOperation(config = {}) {
    */
   async function execute(items = [], options = {}) {
     if (!Array.isArray(items) || items.length === 0) {
-      console.warn("Items must be a non-empty array");
-      return;
+      console.warn('Items must be a non-empty array')
+      return
     }
 
     // 重置状态
-    reset();
+    reset()
 
     // 创建新的 AbortController
-    abortController.value = new AbortController();
-    isStopped.value = false;
+    abortController.value = new AbortController()
+    isStopped.value = false
 
     const {
       concurrency: optionsConcurrency = concurrency,
       delay: delayMs = 0,
-    } = options;
+    } = options
 
-    loading.value = true;
-    total.value = items.length;
+    loading.value = true
+    total.value = items.length
 
     try {
       // 如果设置了延迟，则在每个任务之间添加延迟
-      let tasks = items;
+      let tasks = items
       if (delayMs > 0) {
         tasks = items.map((item) => async () => {
-          await delay(delayMs);
-          return item;
-        });
-        tasks = await Promise.all(tasks.map((task) => task()));
+          await delay(delayMs)
+          return item
+        })
+        tasks = await Promise.all(tasks.map((task) => task()))
       }
 
       // 执行批量操作
-      await limitConcurrency(tasks, optionsConcurrency);
+      await limitConcurrency(tasks, optionsConcurrency)
 
       // 触发完成回调
       if (isFunction(onComplete)) {
@@ -354,12 +354,12 @@ export function useBatchOperation(config = {}) {
           failed: failed.value,
           results: results.value,
           errors: errors.value,
-        });
+        })
       }
     } catch (error) {
-      console.error("Batch operation failed:", error);
+      console.error('Batch operation failed:', error)
     } finally {
-      loading.value = false;
+      loading.value = false
     }
   }
 
@@ -370,25 +370,25 @@ export function useBatchOperation(config = {}) {
   function reset() {
     // 如果有正在进行的操作，先停止
     if (abortController.value) {
-      abortController.value.abort();
+      abortController.value.abort()
     }
 
     // 如果处于暂停状态，先恢复
     if (isPaused.value) {
-      resume();
+      resume()
     }
 
-    loading.value = false;
-    progress.value = 0;
-    total.value = 0;
-    completed.value = 0;
-    failed.value = 0;
-    results.value = [];
-    errors.value = [];
-    isStopped.value = false;
-    isPaused.value = false;
-    pausePromiseResolve.value = null;
-    abortController.value = null;
+    loading.value = false
+    progress.value = 0
+    total.value = 0
+    completed.value = 0
+    failed.value = 0
+    results.value = []
+    errors.value = []
+    isStopped.value = false
+    isPaused.value = false
+    pausePromiseResolve.value = null
+    abortController.value = null
   }
 
   /**
@@ -398,12 +398,12 @@ export function useBatchOperation(config = {}) {
    */
   function pause() {
     if (!loading.value || isStopped.value) {
-      console.warn("无法暂停：操作未在运行或已停止");
-      return;
+      console.warn('无法暂停：操作未在运行或已停止')
+      return
     }
 
-    isPaused.value = true;
-    console.log("批量操作已暂停");
+    isPaused.value = true
+    console.log('批量操作已暂停')
   }
 
   /**
@@ -413,19 +413,19 @@ export function useBatchOperation(config = {}) {
    */
   function resume() {
     if (!isPaused.value) {
-      console.warn("无法恢复：操作未暂停");
-      return;
+      console.warn('无法恢复：操作未暂停')
+      return
     }
 
-    isPaused.value = false;
+    isPaused.value = false
 
     // 解除暂停等待
     if (pausePromiseResolve.value) {
-      pausePromiseResolve.value();
-      pausePromiseResolve.value = null;
+      pausePromiseResolve.value()
+      pausePromiseResolve.value = null
     }
 
-    console.log("批量操作已恢复");
+    console.log('批量操作已恢复')
   }
 
   /**
@@ -434,20 +434,20 @@ export function useBatchOperation(config = {}) {
    * @returns {void}
    */
   function stop() {
-    isStopped.value = true;
-    loading.value = false;
+    isStopped.value = true
+    loading.value = false
 
     // 如果当前处于暂停状态，先恢复以确保停止能够正常执行
     if (isPaused.value) {
-      resume();
+      resume()
     }
 
     // 中止 AbortController（如果 API 支持的话）
     if (abortController.value) {
-      abortController.value.abort();
+      abortController.value.abort()
     }
 
-    console.log("批量操作已停止");
+    console.log('批量操作已停止')
   }
 
   return {
@@ -473,5 +473,5 @@ export function useBatchOperation(config = {}) {
     stop,
     pause,
     resume,
-  };
+  }
 }

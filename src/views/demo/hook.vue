@@ -79,7 +79,7 @@
 
 <script setup>
 import { ref, reactive, watch } from 'vue'
-import { useBatchOperation } from '@/composables'
+import { useTaskQueue } from '@/composables'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 // 模拟数据
@@ -153,7 +153,7 @@ const updateApi = async (item) => {
 }
 
 // 删除操作
-const deleteOperation = useBatchOperation({
+const deleteOperation = useTaskQueue({
   api: deleteApi,
   concurrency: 2, // 降低并发数以便观察停止效果
   onProgress: ({ progress, completed, total, current }) => {
@@ -180,7 +180,7 @@ const deleteOperation = useBatchOperation({
 })
 
 // 更新操作
-const updateOperation = useBatchOperation({
+const updateOperation = useTaskQueue({
   api: updateApi,
   concurrency: 1, // 串行执行以便观察停止效果
   onProgress: ({ progress, current }) => {

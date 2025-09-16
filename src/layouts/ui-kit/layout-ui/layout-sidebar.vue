@@ -5,7 +5,7 @@
     :style="hiddenSideStyle"
     class="h-full transition-all duration-150"
   />
-  <aside
+  <div
     :class="theme"
     :style="style"
     class="bg-sidebar border-border border-r fixed left-0 top-0 h-full transition-all duration-150 flex flex-col"
@@ -13,16 +13,18 @@
     <div v-if="$slots.logo" class="shrink-0 w-full h-[52px]">
       <slot name="logo"></slot>
     </div>
-    <el-scrollbar class="flex-1">
-      <slot></slot>
-    </el-scrollbar>
+    <aside class="flex-1">
+      <el-scrollbar>
+        <slot></slot>
+      </el-scrollbar>
+    </aside>
     <div class="shrink-0 w-full h-[42px]">
       <slot name="trigger"></slot>
     </div>
     <div class="shrink-0">
       <slot name="splitter"></slot>
     </div>
-  </aside>
+  </div>
   <div
     v-if="maskVisible"
     :style="maskStyle"

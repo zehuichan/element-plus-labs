@@ -57,7 +57,7 @@ import { useRoute } from 'vue-router'
 
 import { cloneDeep, findIndex, isEqual } from 'lodash-unified'
 
-import { useAccess } from '@/composables/useAccess'
+import { useAccess } from '@/composables/use-access'
 
 import {
   getEventTargetNode,
