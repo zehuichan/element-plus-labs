@@ -202,7 +202,9 @@
                 </div>
                 <div class="flex justify-between">
                   <span>节省:</span>
-                  <span class="text-blue-500">{{ ((record.original - record.optimized) / record.original * 100).toFixed(1) }}%</span>
+                  <span class="text-blue-500">{{
+                      ((record.original - record.optimized) / record.original * 100).toFixed(1)
+                    }}%</span>
                 </div>
               </div>
             </div>
@@ -215,7 +217,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { usePerformanceMonitor } from '@/composables/usePerformanceMonitor'
+import { usePerformanceMonitor } from '@/composables/use-performance-monitor'
 // 导入两个版本的表格组件
 import ReTable from '@/components/re-table/re-table.vue'
 
@@ -266,7 +268,7 @@ const generateData = (length = 100, prefix = 'row') =>
 const columns = [
   { type: 'selection' },
   { type: 'index', label: '序号', width: 80 },
-  ...generateColumns(3)
+  ...generateColumns(3),
 ]
 
 // 加载测试数据
@@ -348,7 +350,7 @@ const compareMemoryUsage = () => {
     original: { used: originalMemory.toFixed(2) },
     optimized: { used: optimizedMemory.toFixed(2) },
     savings: savings.toFixed(2),
-    savingsPercent
+    savingsPercent,
   }
 
   // 记录到历史
