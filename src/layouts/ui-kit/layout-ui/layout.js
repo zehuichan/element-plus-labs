@@ -1,4 +1,9 @@
 export const layoutProps = {
+  isMobile: {
+    type: Boolean,
+    default: false,
+  },
+  // 页头
   headerMode: {
     type: String,
     default: 'fixed',
@@ -9,48 +14,46 @@ export const layoutProps = {
   headerTheme: {
     type: String,
   },
-  isMobile: {
-    type: Boolean,
-    default: false
-  },
+  // 侧边栏
   sidebarTheme: {
     type: String,
-    default: 'dark'
+    default: 'dark',
   },
   sidebarWidth: {
     type: Number,
-    default: 180
+    default: 180,
   },
   sidebarCollapseWidth: {
     type: Number,
-    default: 64
+    default: 64,
   },
-  // 侧边栏是否隐藏
   sidebarHidden: {
     type: Boolean,
-    default: false
+    default: false,
   },
+  // 标签栏
   tabbarEnable: {
     type: Boolean,
-    default: true
+    default: true,
   },
   tabbarHeight: {
     type: Number,
   },
+  // 页脚
   footerEnable: {
     type: Boolean,
-    default: false
+    default: false,
   },
   footerFixed: {
     type: Boolean,
-    default: true
+    default: true,
   },
   footerHeight: {
     type: Number,
-    default: 32
+    default: 32,
   },
   zIndex: {
     type: Number,
-    default: 200
-  }
+    default: 200,
+  },
 }

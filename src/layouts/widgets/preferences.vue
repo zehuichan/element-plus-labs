@@ -49,6 +49,14 @@
                 @change="listen('theme','semiDarkSidebar', $event)"
               />
             </div>
+            <div class="hover:bg-accent my-1 flex w-full items-center justify-between rounded-md px-2 py-2.5">
+              <div class="flex items-center text-[13px]">深色顶栏</div>
+              <el-switch
+                :model-value="preferences.theme.semiDarkHeader"
+                :disabled="isDark"
+                @change="listen('theme','semiDarkHeader', $event)"
+              />
+            </div>
           </div>
         </div>
         <div class="flex flex-col py-4">

@@ -1,9 +1,9 @@
 <template>
   <plus-layout
+    :is-mobile="preferences.app.isMobile"
+
     :header-height="preferences.header.height"
     :header-theme="headerTheme"
-
-    :is-mobile="preferences.app.isMobile"
 
     :sidebar-theme="sidebarTheme"
     :sidebar-collapse="preferences.sidebar.collapsed"

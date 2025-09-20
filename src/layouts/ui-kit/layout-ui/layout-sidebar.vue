@@ -13,11 +13,9 @@
     <div v-if="$slots.logo" class="shrink-0 w-full h-[52px]">
       <slot name="logo"></slot>
     </div>
-    <aside class="flex-1">
-      <el-scrollbar>
-        <slot></slot>
-      </el-scrollbar>
-    </aside>
+    <el-scrollbar tag="aside">
+      <slot></slot>
+    </el-scrollbar>
     <div class="shrink-0 w-full h-[42px]">
       <slot name="trigger"></slot>
     </div>
@@ -68,11 +66,10 @@ const collapse = defineModel('collapse')
 
 const hiddenSideStyle = computed(() => calcMenuWidthStyle(true))
 const maskVisible = computed(() => !collapse.value && props.isMobile)
-
 const style = computed(() => {
   const { zIndex } = props
   return {
-    overflow: 'hidden',
+    // overflow: 'hidden',
     ...calcMenuWidthStyle(false),
     zIndex,
   }
@@ -89,7 +86,7 @@ function handleClickMask() {
 function calcMenuWidthStyle(isHiddenDom) {
   const { show, width } = props
 
-  let widthValue = width === 0 ? '0px' : `${width}px`
+  const widthValue = width === 0 ? '0px' : `${width}px`
 
   return {
     ...(widthValue === '0px' ? { overflow: 'hidden' } : {}),

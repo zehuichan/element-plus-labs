@@ -2,7 +2,7 @@
   <header
     :class="theme"
     :style="style"
-    class="border-border bg-header top-0 flex w-full flex-[0_0_auto] items-center border-b pl-2 transition-[margin-top] duration-200"
+    class="bg-header border-border top-0 flex w-full flex-[0_0_auto] items-center border-b pl-2 transition-[margin-top] duration-200"
   >
     <template v-for="slot in leftSlots" :key="slot.name">
       <slot :name="slot.name"></slot>
@@ -45,8 +45,8 @@ const leftSlots = computed(() => {
 const rightSlots = computed(() => {
   const list = [{ index: REFERENCE_VALUE + 100, name: 'user-dropdown' }]
 
-  list.push({ index: REFERENCE_VALUE, name: 'check-updates', })
-  list.push({ index: REFERENCE_VALUE + 10, name: 'global-search', })
+  list.push({ index: REFERENCE_VALUE, name: 'check-updates' })
+  list.push({ index: REFERENCE_VALUE + 10, name: 'global-search' })
   list.push({ index: REFERENCE_VALUE + 20, name: 'preferences' })
   list.push({ index: REFERENCE_VALUE + 30, name: 'theme-toggle' })
   list.push({ index: REFERENCE_VALUE + 40, name: 'language-toggle' })
@@ -58,5 +58,7 @@ const rightSlots = computed(() => {
 </script>
 
 <style>
-
+.dark {
+  --color-header: hsl(var(--header));
+}
 </style>

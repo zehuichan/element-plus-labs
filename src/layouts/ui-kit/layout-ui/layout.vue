@@ -11,7 +11,6 @@
       :collapse-width="getSidebarCollapseWidth"
       :z-index="getSidebarZIndex"
     >
-
       <template #logo>
         <slot name="logo"></slot>
       </template>

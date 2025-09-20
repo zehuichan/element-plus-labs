@@ -82,7 +82,12 @@ function goHome() {
 .breadcrumb {
   .el-breadcrumb__inner a,
   .el-breadcrumb__inner.is-link {
+    color: hsl(var(--muted-foreground));
     font-weight: 500;
+
+    &:hover {
+      color: hsl(var(--foreground));
+    }
   }
 }
 
