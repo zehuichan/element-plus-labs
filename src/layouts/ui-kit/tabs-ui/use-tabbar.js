@@ -1,7 +1,7 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-import { useAccessStore, useTabbarStore } from '@/store'
+import { getTabKey, useAccessStore, useTabbarStore } from '@/store'
 import { filterTree } from '@/utils/tree-helper'
 import { useTabs } from '@/composables/use-tabs'
 import { useI18n } from '@/locales'
@@ -14,7 +14,7 @@ import {
   Redo,
   ToLeft,
   ToRight,
-  TransferData
+  TransferData,
 } from '@icon-park/vue-next'
 
 export function useTabbar(props) {
@@ -39,7 +39,7 @@ export function useTabbar(props) {
   const { locale } = useI18n()
 
   const currentActive = computed(() => {
-    return route.fullPath
+    return getTabKey(route)
   })
 
   const currentTabs = ref()
@@ -71,7 +71,8 @@ export function useTabbar(props) {
 
   // 点击tab,跳转路由
   const handleClick = (key) => {
-    router.push(key)
+    const { fullPath, path } = tabbarStore.getTabByKey(key)
+    router.push(fullPath || path)
   }
 
   // 关闭tab
@@ -87,7 +88,6 @@ export function useTabbar(props) {
         title: tab?.meta?.title,
       },
     }
-
   }
 
   watch(

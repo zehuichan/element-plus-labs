@@ -191,7 +191,7 @@ export const useTabbarStore = defineStore('tabbar', {
         await this.closeTab(tab, router)
       }
     },
-    getTabByKey(path) {
+    getTabByKey(key) {
       return this.getTabs.find((item) => getTabKeyFromTab(item) === key)
     },
     async openTabInNewWindow(tab) {

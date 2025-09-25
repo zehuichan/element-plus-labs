@@ -58,7 +58,7 @@ const onSelect = (index) => {
   if (isHttpUrl(index)) {
     window.open(index)
   } else {
-    router.push(index)
+    router.push({ path: index, query: { pageKey: Date.now() } })
   }
 }
 </script>
